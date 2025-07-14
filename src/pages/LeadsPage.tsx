@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AddLeadModal from "../components/AddLeadModal";
+
 
 export default function LeadsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
