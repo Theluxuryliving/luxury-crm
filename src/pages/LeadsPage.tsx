@@ -1,5 +1,5 @@
 // src/pages/LeadsPage.tsx
-mport { useState } from "react";
+import { useState } from "react";
 import AddLeadModal from "../components/AddLeadModal";
 import LeadsTable from "../components/LeadsTable";
 
