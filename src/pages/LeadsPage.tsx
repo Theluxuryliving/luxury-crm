@@ -1,7 +1,5 @@
-// ❌ Remove this line entirely:
-// import React from "react";
-
-import { useState } from "react";
+// src/pages/LeadsPage.tsx
+import React, { useState } from "react";
 import AddLeadModal from "../components/AddLeadModal";
 
 export default function LeadsPage() {
