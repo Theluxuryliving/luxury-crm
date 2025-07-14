@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import AddLeadModal from "../components/AddLeadModal";
+// ❌ Remove this line entirely:
+// import React from "react";
 
+import { useState } from "react";
+import AddLeadModal from "../components/AddLeadModal";
 
 export default function LeadsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
