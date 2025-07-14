@@ -1,5 +1,7 @@
-import , { useState } from "react";
+// src/pages/LeadsPage.tsx
+import React, { useState } from "react";
 import AddLeadModal from "../components/AddLeadModal";
+import LeadsTable from "../components/LeadsTable";
 
 export default function LeadsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,7 +15,9 @@ export default function LeadsPage() {
       >
         Add Lead
       </button>
+
       <AddLeadModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+      <LeadsTable />
     </div>
   );
 }
