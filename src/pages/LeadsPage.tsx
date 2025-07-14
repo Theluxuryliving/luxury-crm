@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import , { useState } from "react";
 import AddLeadModal from "../components/AddLeadModal";
 
 export default function LeadsPage() {
