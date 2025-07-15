@@ -59,7 +59,11 @@ export default function AddLeadModal({ isOpen, setIsOpen }: AddLeadModalProps) {
         body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error("Failed to submit lead");
+      if (!res.ok) {
+  const errorText = await res.text();
+  throw new Error(`❌ API error: ${res.status} ${res.statusText} — ${errorText}`);
+}
+
 
       alert("✅ Lead submitted successfully!");
       setIsOpen(false);

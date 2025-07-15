@@ -1,6 +1,9 @@
 {
-  "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
+  "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js"
+  "/dashboard": "pages/dashboard.js",
+  "/api/getLeads": "pages/api/getLeads.js",
+  "/leads": "pages/leads.js",
+  "/api/addLead": "pages/api/addLead.js"
 }
