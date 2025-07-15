@@ -2,19 +2,19 @@ import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
-    <div className="w-64 bg-gray-900 text-white h-screen p-6">
+    <div className="w-64 h-screen bg-gray-900 text-white p-6">
       <h2 className="text-xl font-bold mb-6">Luxury CRM</h2>
-      <nav className="space-y-4">
-        <Link to="/Dashboard" className="block hover:text-gray-300">📊 Dashboard</Link>
-        <Link to="/leads" className="block hover:text-gray-300">👥 Leads</Link>
-        <Link to="/followups" className="block hover:text-gray-300">📌 Follow-ups</Link>
-        <Link to="/Calendar" className="block hover:text-gray-300">📅 Calendar</Link>
-        <Link to="/projects" className="block hover:text-gray-300">🏗️ Projects</Link>
-        <Link to="/Inventory" className="block hover:text-gray-300">📦 Inventory</Link>
-        <Link to="/deals" className="block hover:text-gray-300">🤝 Deals</Link>
-        <Link to="/documents" className="block hover:text-gray-300">📁 Documents</Link>
-        <Link to="/affiliates" className="block hover:text-gray-300">Affiliates</Link>
-        <Link to="/settings" className="block hover:text-gray-300">Settings</Link>
+      <nav className="flex flex-col space-y-4 text-left">
+        <Link to="/Dashboard" className="hover:text-gray-300 break-words">📊 Dashboard</Link>
+        <Link to="/leads" className="hover:text-gray-300 break-words">👥 Leads</Link>
+        <Link to="/followups" className="hover:text-gray-300 break-words">📌 Follow-ups</Link>
+        <Link to="/Calendar" className="hover:text-gray-300 break-words">📅 Calendar</Link>
+        <Link to="/projects" className="hover:text-gray-300 break-words">🏗️ Projects</Link>
+        <Link to="/Inventory" className="hover:text-gray-300 break-words">📦 Inventory</Link>
+        <Link to="/deals" className="hover:text-gray-300 break-words">💼 Deals</Link>
+        <Link to="/documents" className="hover:text-gray-300 break-words">📁 Documents</Link>
+        <Link to="/affiliates" className="hover:text-gray-300 break-words">🌐 Affiliates</Link>
+        <Link to="/settings" className="hover:text-gray-300 break-words">⚙️ Settings</Link>
       </nav>
     </div>
   );
