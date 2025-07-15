@@ -1,34 +1,55 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export default function LeadsTable() {
-  const [leads, setLeads] = useState<any[]>([]);
+  const [leads, setLeads] = useState([]);
+  const [filter, setFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("createdAt");
+
+  const fetchLeads = async () => {
+    const res = await fetch("/api/getLeads");
+    const data = await res.json();
+    setLeads(data);
+  };
 
   useEffect(() => {
-    fetch('/api/leads')
-      .then((res) => res.json())
-      .then((data) => setLeads(data));
+    fetchLeads();
   }, []);
 
+  const filteredLeads = leads.filter((lead: any) =>
+    filter === "all" ? true : lead.stage === filter
+  );
+
+  const sortedLeads = [...filteredLeads].sort((a: any, b: any) => {
+    if (sortBy === "name") return a.name.localeCompare(b.name);
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
+
   return (
-    <div className="overflow-x-auto bg-white rounded shadow">
-      <table className="min-w-full divide-y divide-gray-200 text-sm text-left">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="px-6 py-3 font-medium text-gray-700">Name</th>
-            <th className="px-6 py-3 font-medium text-gray-700">Stage</th>
-            <th className="px-6 py-3 font-medium text-gray-700">Created At</th>
+    <div className="p-4">
+      <div className="flex justify-between items-center mb-4">
+        <select value={filter} onChange={(e) => setFilter(e.target.value)} className="border p-2 rounded">
+          <option value="all">All Stages</option>
+          <option value="new">New</option>
+          <option value="contacted">Contacted</option>
+          <option value="follow-up">Follow-up</option>
+          <option value="closed">Closed</option>
+        </select>
+
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="border p-2 rounded">
+          <option value="createdAt">Newest First</option>
+          <option value="name">Name (A-Z)</option>
+        </select>
+      </div>
+
+      <table className="min-w-full border">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="p-2 border">Name</th>
+            <th className="p-2 border">Phone</th>
+            <th className="p-2 border">Email</th>
+            <th className="p-2 border">Stage</th>
+            <th className="p-2 border">Created</th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {leads.map((lead) => (
-            <tr key={lead.id}>
-              <td className="px-6 py-4">{lead.name}</td>
-              <td className="px-6 py-4">{lead.stage}</td>
-              <td className="px-6 py-4">{new Date(lead.createdAt).toLocaleDateString()}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
+        <tbody>
+          {sortedLeads.map((lead: any) => (

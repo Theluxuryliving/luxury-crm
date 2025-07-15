@@ -30,12 +30,14 @@ const sources = [
 
 export default function AddLeadModal({ isOpen, setIsOpen }: AddLeadModalProps) {
   const cancelButtonRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
+
   const [formData, setFormData] = useState<any>({
     name: "", email: "", phone: "", city: "", country: "🇵🇰 Pakistan",
     area: "", plan: "", propertyType: "", project: "", budget: 10,
-    purchasePlan: "", source: ""
+    purchasePlan: "", source: "", stage: "new" // ✅ default stage
   });
-  const [showImportModal, setShowImportModal] = useState(false);
 
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,6 +46,12 @@ export default function AddLeadModal({ isOpen, setIsOpen }: AddLeadModalProps) {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
+    if (!formData.name || !formData.phone || !formData.source) {
+      alert("❌ Name, Phone, and Source are required!");
+      return;
+    }
+
+    setLoading(true);
     try {
       const res = await fetch("/api/addLead", {
         method: "POST",
@@ -58,11 +66,13 @@ export default function AddLeadModal({ isOpen, setIsOpen }: AddLeadModalProps) {
       setFormData({
         name: "", email: "", phone: "", city: "", country: "🇵🇰 Pakistan",
         area: "", plan: "", propertyType: "", project: "", budget: 10,
-        purchasePlan: "", source: ""
+        purchasePlan: "", source: "", stage: "new"
       });
     } catch (error) {
       alert("❌ Error submitting lead");
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,11 +130,23 @@ export default function AddLeadModal({ isOpen, setIsOpen }: AddLeadModalProps) {
                     {sources.map(s => <option key={s}>{s}</option>)}
                   </select>
 
+                  {/* Optional Stage Dropdown (uncomment if needed)
+                  <select name="stage" value={formData.stage} onChange={handleChange} className="border p-2 rounded">
+                    {["new", "contacted", "follow-up", "closed"].map(stage => <option key={stage}>{stage}</option>)}
+                  </select>
+                  */}
+
                   <div className="col-span-2 flex justify-between mt-4">
                     <button type="button" onClick={() => setShowImportModal(true)} className="px-4 py-2 bg-gray-300 rounded">📥 Import</button>
                     <div className="space-x-2">
                       <button type="button" ref={cancelButtonRef} onClick={() => setIsOpen(false)} className="px-4 py-2 bg-gray-200 rounded">Cancel</button>
-                      <button type="submit" className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Save</button>
+                      <button
+                        type="submit"
+                        className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 disabled:opacity-50"
+                        disabled={loading}
+                      >
+                        {loading ? "Saving..." : "Save"}
+                      </button>
                     </div>
                   </div>
                 </form>
