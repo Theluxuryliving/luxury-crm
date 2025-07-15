@@ -24,8 +24,8 @@ export default function LeadsTable() {
 
   const fetchLeads = async () => {
     try {
-      const res = await fetch('/api/getLeads');
-      const json = await res.json();
+      const res = await fetch("/api/getLeads");
+      const leads = await res.json();
       setLeads(json.leads);
     } catch (err) {
       console.error("Failed to fetch leads", err);
