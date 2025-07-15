@@ -6,7 +6,10 @@ export default function App() {
   return (
     <Router>
       <div className="flex font-poppins min-h-screen bg-[#f8f8f8]">
+        {/* Sidebar */}
         <Sidebar />
+
+        {/* Main content area */}
         <div className="flex-1 p-6">
           <Routes>
             <Route path="/" element={<Navigate to="/leads" />} />
