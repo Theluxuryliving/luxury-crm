@@ -8,19 +8,25 @@ datasource db {
 }
 
 model Lead {
-  id        Int        @id @default(autoincrement())
+  id        String   @id @default(cuid())
   name      String
-  stage     String     @default("New")
-  followups Followup[]
-  createdAt DateTime   @default(now())
+  phone     String?
+  email     String?
+  source    String?
+  stage     String?
+  createdAt DateTime @default(now())
+
+  followups Followup[] // ✅ Add this back-reference
 }
 
 model Followup {
-  id     Int      @id @default(autoincrement())
-  type   String
+  id     String   @id @default(cuid())
+  note   String?
   date   DateTime
-  status String   @default("Pending")
-  agent  String
-  leadId Int
+  status String   @default("pending")
+  agent  String?
+  leadId String // ✅ Fix type to match Lead.id
   lead   Lead     @relation(fields: [leadId], references: [id])
+
+  createdAt DateTime @default(now())
 }
