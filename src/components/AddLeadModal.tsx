@@ -1,4 +1,3 @@
-// src/components/AddLeadModal.tsx
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef, useState } from "react";
 
@@ -15,9 +14,9 @@ const countries = [
 ];
 const lahoreAreas = [
   "Bahria", "DHA", "Etihad Town", "RUDA", "Raiwind Road", "Pine Avenue", "Lake City",
-  "Park Lane", "Central Park", "Gulberg", "Walled City",
-  "Gawalmandi", "Faisal Town", "Johar Town", "Wapda Town", "Valencia Town", "Canal Road", "LDA Avenue", "Multan road", "Thokar Niaz Baig", "Mughalpura", "Shalamar Garden", "Cantt", "CBD", "Walton", "NSIT"
-
+  "Park Lane", "Central Park", "Gulberg", "Walled City", "Gawalmandi", "Faisal Town", "Johar Town",
+  "Wapda Town", "Valencia Town", "Canal Road", "LDA Avenue", "Multan road", "Thokar Niaz Baig",
+  "Mughalpura", "Shalamar Garden", "Cantt", "CBD", "Walton", "NSIT"
 ];
 const plans = ["Offplan", "Ready to Move", "Tenant", "To Let", "To Sell"];
 const propertyTypes = [
@@ -26,8 +25,7 @@ const propertyTypes = [
 ];
 const purchasePlans = ["Immediately", "3 Months", "6 Months", "1 Year"];
 const sources = [
-  "Facebook", "Instagram", "YouTube", "X", "Google",
-  "Event", "Reference", "Cold Call"
+  "Facebook", "Instagram", "YouTube", "X", "Google", "Event", "Reference", "Cold Call"
 ];
 
 export default function AddLeadModal({ isOpen, setIsOpen }: AddLeadModalProps) {
@@ -37,18 +35,35 @@ export default function AddLeadModal({ isOpen, setIsOpen }: AddLeadModalProps) {
     area: "", plan: "", propertyType: "", project: "", budget: 10,
     purchasePlan: "", source: ""
   });
-
   const [showImportModal, setShowImportModal] = useState(false);
 
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("Lead Submitted:", formData);
-    setIsOpen(false);
-    setFormData({});
+
+    try {
+      const res = await fetch("/api/addLead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Failed to submit lead");
+
+      alert("✅ Lead submitted successfully!");
+      setIsOpen(false);
+      setFormData({
+        name: "", email: "", phone: "", city: "", country: "🇵🇰 Pakistan",
+        area: "", plan: "", propertyType: "", project: "", budget: 10,
+        purchasePlan: "", source: ""
+      });
+    } catch (error) {
+      alert("❌ Error submitting lead");
+      console.error(error);
+    }
   };
 
   return (
@@ -57,7 +72,7 @@ export default function AddLeadModal({ isOpen, setIsOpen }: AddLeadModalProps) {
         <Dialog as="div" className="fixed inset-0 z-50 overflow-y-auto" onClose={() => setIsOpen(false)} initialFocus={cancelButtonRef}>
           <div className="flex min-h-screen items-center justify-center px-4 text-center">
             <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
-              <Dialog.Panel className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg text-left align-middle relative z-[100]">
+              <Dialog.Panel className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg text-left align-middle">
                 <Dialog.Title as="h3" className="text-lg font-medium text-gray-900 mb-4">Add New Lead</Dialog.Title>
 
                 <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
@@ -90,7 +105,6 @@ export default function AddLeadModal({ isOpen, setIsOpen }: AddLeadModalProps) {
                     {propertyTypes.map(p => <option key={p}>{p}</option>)}
                   </select>
 
-                  {/* Replace this with actual projects fetched from the Projects tab later */}
                   <input name="project" value={formData.project} onChange={handleChange} placeholder="Project Interested In" className="border p-2 rounded" />
 
                   <div className="col-span-2">
