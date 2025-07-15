@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import AddLeadModal from "../components/AddLeadModal";
-import LeadsTable from "../components/LeadsTable"; // If you're using it
+import LeadsTable from "../components/LeadsTable";
 
 export default function LeadsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
